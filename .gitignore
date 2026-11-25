@@ -263,3 +263,7 @@ uploads/
 !.gitignore
 _record
 
+
+# 문서 스캐너 프로젝트: 메타데이터/자동 생성 보고서 CSV는 추적
+!images/metadata.csv
+!reports/auto/*.csv

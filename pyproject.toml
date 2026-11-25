@@ -1,7 +1,7 @@
 [project]
 name = "learn-ai-cv-opencv-photo"
 version = "0.1.0"
-description = "Add your description here"
+description = "OpenCV + NumPy rule-based document scanner (edge, contour, perspective transform)"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

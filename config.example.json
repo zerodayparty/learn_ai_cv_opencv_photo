@@ -1,0 +1,11 @@
+{
+    "blur_kernel": 5,
+    "canny_low": 50,
+    "canny_high": 150,
+    "dilate_iter": 1,
+    "min_area_ratio": 0.1,
+    "process_height": 800,
+    "thresh_block": 21,
+    "thresh_c": 10,
+    "orientation": "portrait"
+}
