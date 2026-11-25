@@ -34,8 +34,9 @@ learn_ai_cv_opencv_photo/
 │   ├── convolution.py       # 보너스1: NumPy 가우시안 블러 (for문 vs 벡터화)
 │   ├── pdf_export.py        # 보너스3: PDF 내보내기 (Pillow)
 │   ├── plotting.py          # matplotlib 한글 폰트 설정
-│   └── synthetic.py         # 동작 확인용 합성 이미지 생성
-├── images/                  # 테스트 이미지 20장 + metadata.csv (직접 추가)
+│   ├── synthetic.py         # 동작 확인용 합성 이미지 6장 생성
+│   └── photo_factory.py     # 과제용 합성 테스트 사진 20장 + 정답 꼭짓점 생성
+├── images/                  # 테스트 이미지 20장 + metadata.csv (generate 로 생성 또는 직접 촬영)
 ├── reports/
 │   ├── analysis_report.md   # 분석 보고서 (템플릿)
 │   └── auto/                # 프로그램이 자동 생성하는 표/그래프
@@ -71,6 +72,7 @@ uv sync
 | 보너스1 | `uv run python main.py bench images/a.jpg --ksize 5` | `reports/auto/bench_convolution.md` |  
 | 보너스3 | `uv run python main.py pdf` | `outputs/scanned_all.pdf` |  
 | 합성 샘플 | `uv run python main.py sample` | `outputs/synthetic/` (데이터 없을 때 동작 확인용) |  
+| 과제용 테스트셋 | `uv run python main.py generate` | `images/` 에 사진 20장 + 정답 꼭짓점이 채워진 `metadata.csv` |  
 
 - GUI 키: `s` = 결과 저장, `p` = PDF 저장, `q` / `ESC` = 종료  
 - 트랙바: Blur Kernel, Canny Low, Canny High, Dilate Iter, Thresh Block, Thresh C  
@@ -114,3 +116,5 @@ uv sync
 
 - `images/README.md` 참고  
 - 사진 20장을 `images/` 에 넣고 → `init` → `metadata.csv` 조건 입력 → `annotate` → `batch` / `sweep` / `eda` 순서로 실행  
+- 현재 `images/` 에는 `generate` 로 만든 합성 테스트셋 20장이 들어 있다. 정답 꼭짓점과 촬영 조건이 이미 기록되어 있어 바로 `batch` 를 실행할 수 있다.  
+- 실제 사진으로 바꾸려면 합성 사진을 지우고 직접 찍은 사진을 넣은 뒤 `init` 부터 진행한다.  

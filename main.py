@@ -10,6 +10,7 @@
     uv run python main.py annotate              # 정답 꼭짓점 클릭 입력
     uv run python main.py bench images/a.jpg    # 보너스1 컨볼루션 속도 비교
     uv run python main.py pdf                   # 보너스3 스캔본을 PDF로 묶기
+    uv run python main.py generate              # 과제용 합성 테스트 사진 20장 + metadata.csv 생성
 """  # 모듈 설명 (사용법)
 
 from __future__ import annotations  # 타입 힌트 호환성
@@ -134,6 +135,17 @@ def cmd_sample(args: argparse.Namespace) -> int:  # sample 명령: 합성 테스
     return 0  # 성공 코드
 
 
+def cmd_generate(args: argparse.Namespace) -> int:  # generate 명령: 과제용 합성 사진 20장 생성
+    from scanner.photo_factory import generate_dataset  # 생성 함수
+    try:  # 기존 사진 보호 오류를 잡기 위해
+        paths = generate_dataset(Path(args.images), seed=args.seed, force=args.force)  # 20장 + metadata.csv 생성
+    except FileExistsError as e:  # 이미 사진이 있으면
+        print(f"[generate] {e}")  # 안내
+        return 1  # 실패 코드
+    print(f"[generate] {len(paths)}장 + metadata.csv 생성 → {args.images}")  # 결과 안내
+    return 0  # 성공 코드
+
+
 def build_parser() -> argparse.ArgumentParser:  # 명령줄 구조 정의
     parser = argparse.ArgumentParser(description="OpenCV 규칙 기반 문서 스캐너")  # 최상위 파서
     sub = parser.add_subparsers(dest="command")  # 하위 명령 묶음
@@ -172,6 +184,11 @@ def build_parser() -> argparse.ArgumentParser:  # 명령줄 구조 정의
     sm = sub.add_parser("sample", help="동작 확인용 합성 이미지 생성")  # sample 명령
     sm.add_argument("--out", default=str(OUTPUT_DIR / "synthetic"), help="생성 폴더")  # 생성 폴더
     sm.set_defaults(func=cmd_sample)  # 실행 함수 연결
+    g = sub.add_parser("generate", help="과제용 합성 테스트 사진 20장 + 정답 꼭짓점 생성")  # generate 명령
+    g.add_argument("--images", default=str(IMAGES_DIR), help="생성 폴더")  # 생성 폴더
+    g.add_argument("--seed", type=int, default=2026, help="난수 seed (같으면 같은 사진)")  # 재현용 seed
+    g.add_argument("--force", action="store_true", help="폴더에 이미지가 있어도 덮어쓰기")  # 덮어쓰기 허용
+    g.set_defaults(func=cmd_generate)  # 실행 함수 연결
     return parser  # 완성된 파서 반환
 
 
